@@ -3,10 +3,11 @@ import os.path
 
 
 def formatting_menu_items(menu_items):
-    """Formatting the list that is received from reading the json file
-    into a dictionary with a dish key and the value is the price. Also, checks
-    at the beginning if the list length is greater than two to check if the
-    file isn't empty."""
+    """Formatting the list that is received from reading the json file.
+     Also, checks at the beginning if the list length is greater than
+    two to check if the file isn't empty and returns a tuple of dicitonaries:
+    one dictionary has dish as the key an the price as the value in the second
+    dictionray the dish is the value and the key is the price."""
     if len(menu_items) <= 2:
         print("The file is empty.")
         return
@@ -23,6 +24,10 @@ def formatting_menu_items(menu_items):
 
 
 def finding_combo_dishes(menu):
+    """Takes in a tuple which is broken into a dishes map and prices map. Then
+    using two for loops to iterate through the keys in the dishes map. The
+    first for loop iterates in line and the second in reverse to see if the
+    target price can be found that way."""
     dishes, prices = menu
     if "target price" not in dishes:
         print("The file doesn't have a target price.")
@@ -30,29 +35,34 @@ def finding_combo_dishes(menu):
     elif len(dishes.keys()) <= 2:
         print("Missing dishes only have a target price.")
         return
-    # amount = dishes.pop("target price")
+    amount = dishes.pop("target price")
     dishes.pop("target price")
-    amount = float(6.35)
     current_amount = float(0)
     different_amount = amount - current_amount
     combo_dishes = []
     for dish in dishes.keys():
         current_amount += dishes[dish]
         different_amount -= current_amount
-        print(current_amount, round(different_amount, 2))
         combo_dishes.append(dish)
         if round(different_amount, 2) in prices:
             combo_dishes.append(prices[round(different_amount, 2)])
+
+        if current_amount == amount:
             print(combo_dishes)
             return
+    current_amount = float(0)
+    different_amount = amount - current_amount
+    combo_dishes = []
+    for dish in dishes.keys().reverse():
+        current_amount += dishes[dish]
+        different_amount -= current_amount
+        if round(different_amount, 2) in prices:
+            combo_dishes.append(prices[round(different_amount, 2)])
 
         if current_amount == amount:
             print(combo_dishes)
             return
     else:
-        print(current_amount - amount)
-        print(dishes)
-        print(current_amount)
         print("No combination of dishes are equal to the target price.")
 
 
