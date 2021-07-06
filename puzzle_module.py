@@ -96,5 +96,9 @@ if not os.path.isfile(filename):
 else:
     with open(filename) as f:
         content = f.read().splitlines()
-    menutItems = formatting_menu_items(content)
-    finding_combo_dishes(menutItems)
+    try:
+        menutItems = formatting_menu_items(content)
+        finding_combo_dishes(menutItems)
+
+    except Exception as error:
+        print(f"An error occur: {error}")
