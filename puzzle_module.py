@@ -36,7 +36,6 @@ def finding_combo_dishes(menu):
         print("Missing dishes only have a target price.")
         return
     amount = dishes.pop("target price")
-    dishes.pop("target price")
     current_amount = float(0)
     different_amount = amount - current_amount
     combo_dishes = []
@@ -52,8 +51,10 @@ def finding_combo_dishes(menu):
             return
     current_amount = float(0)
     different_amount = amount - current_amount
+    dishes_list = list(dishes.keys())
+    dishes_list.reverse()
     combo_dishes = []
-    for dish in dishes.keys().reverse():
+    for dish in dishes_list:
         current_amount += dishes[dish]
         different_amount -= current_amount
         if round(different_amount, 2) in prices:
