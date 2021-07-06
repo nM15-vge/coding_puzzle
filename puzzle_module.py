@@ -25,9 +25,8 @@ def formatting_menu_items(menu_items):
 
 def finding_combo_dishes(menu):
     """Takes in a tuple which is broken into a dishes map and prices map. Then
-    using two for loops to iterate through the keys in the dishes map. The
-    first for loop iterates in line and the second in reverse to see if the
-    target price can be found that way."""
+    using two for loops to iterate through the keys in the dishes map. This
+    solution contain three different loops for different number of dishes."""
     dishes, prices = menu
     if "target price" not in dishes:
         print("The file doesn't have a target price.")
@@ -39,6 +38,7 @@ def finding_combo_dishes(menu):
     current_amount = float(0)
     different_amount = amount - current_amount
     combo_dishes = []
+    # This for loop iterates in line.
     for dish in dishes.keys():
         current_amount += dishes[dish]
         different_amount -= current_amount
@@ -46,7 +46,7 @@ def finding_combo_dishes(menu):
         if round(different_amount, 2) in prices:
             combo_dishes.append(prices[round(different_amount, 2)])
 
-        if current_amount == amount:
+        if round(current_amount, 2) == amount:
             print(combo_dishes)
             return
     current_amount = float(0)
@@ -54,15 +54,38 @@ def finding_combo_dishes(menu):
     dishes_list = list(dishes.keys())
     dishes_list.reverse()
     combo_dishes = []
+    # This for loop iterates in reverse.
     for dish in dishes_list:
         current_amount += dishes[dish]
         different_amount -= current_amount
+        combo_dishes.append(dish)
         if round(different_amount, 2) in prices:
             combo_dishes.append(prices[round(different_amount, 2)])
 
-        if current_amount == amount:
+        if round(current_amount, 2) == amount:
             print(combo_dishes)
             return
+    # This a double for loop to find upto three dishes in the list.
+    for i in range(len(dishes_list)):
+        dish = dishes_list[i]
+        current_amount = float(0)
+        different_amount = amount - current_amount
+        combo_dishes = [dish]
+        for j in range(1, len(dishes_list)):
+            dish2 = dishes_list[j]
+            if dish == dish2:
+                continue
+            current_amount = float(0)
+            current_amount = dishes[dish2] + dishes[dish]
+            combo_dishes.append(dish2)
+            different_amount -= current_amount
+            if round(different_amount, 2) in prices:
+                combo_dishes.append(prices[round(different_amount, 2)])
+
+            if round(current_amount, 2) == amount:
+                print(combo_dishes)
+                return
+            combo_dishes = [dish]
     else:
         print("No combination of dishes are equal to the target price.")
 
